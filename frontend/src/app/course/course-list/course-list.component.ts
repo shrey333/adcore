@@ -49,13 +49,6 @@ export class CourseListComponent implements OnInit {
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24));
   }
 
-  formatPrice(price: number, currency: string): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency,
-    }).format(price);
-  }
-
   loadCourses(page: number = 0, size: number = this.pageSize) {
     const search = this.searchControl.value;
     this.courseService
@@ -67,7 +60,7 @@ export class CourseListComponent implements OnInit {
             course.StartDate,
             course.EndDate,
           ),
-          FormattedPrice: this.formatPrice(course.Price, course.Currency),
+          FormattedPrice: `${course.Currency} ${course.Price}`,
         }));
         this.totalCourses = data.total;
       });

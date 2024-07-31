@@ -5,7 +5,7 @@ from bson import ObjectId
 
 
 class Course(BaseModel):
-    id: str = Field(..., alias="_id")
+    id: Optional[str] = Field(None, alias="_id")
     university: str = Field(..., alias="University")
     city: str = Field(..., alias="City")
     country: str = Field(..., alias="Country")
@@ -15,10 +15,15 @@ class Course(BaseModel):
     end_date: datetime.date = Field(..., alias="EndDate")
     price: float = Field(..., alias="Price")
     currency: str = Field(..., alias="Currency")
+    created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
 
     class Config:
         populate_by_name = True
-        json_encoders = {ObjectId: str}
+        json_encoders = {
+            ObjectId: str,
+            datetime.date: lambda v: v.isoformat(),
+            datetime.datetime: lambda v: v.isoformat(),
+        }
 
 
 class UpdateCourse(BaseModel):

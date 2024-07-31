@@ -12,6 +12,11 @@ router = APIRouter()
 async def create_course(course: Course):
     try:
         course_dict = course.dict(by_alias=True)
+
+        if "_id" in course_dict:
+            del course_dict["_id"]
+
+        course_dict["created_at"] = datetime.datetime.utcnow()
         course_dict["StartDate"] = datetime.datetime.combine(
             course_dict["StartDate"], datetime.datetime.min.time()
         )
@@ -21,6 +26,7 @@ async def create_course(course: Course):
         result = await db.courses.insert_one(course_dict)
         return str(result.inserted_id)
     except Exception as e:
+        print(e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to create course",
@@ -43,7 +49,7 @@ async def get_courses(search: Optional[str] = None, page: int = 1, size: int = 1
             }
         total = await db.courses.count_documents(query)
         skip = (page - 1) * size
-        cursor = db.courses.find(query).skip(skip).limit(size)
+        cursor = db.courses.find(query).sort("created_at", -1).skip(skip).limit(size)
         courses = await cursor.to_list(length=size)
         formatted_courses = [
             {**course, "_id": str(course["_id"])} for course in courses
