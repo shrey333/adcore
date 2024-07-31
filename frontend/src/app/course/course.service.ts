@@ -8,7 +8,7 @@ import { Course } from './course.model';
   providedIn: 'root',
 })
 export class CourseService {
-  private apiUrl = `http://52.55.149.231:8000/api/courses`;
+  private apiUrl = `https://1a6a-64-189-4-230.ngrok-free.app/api/courses`;
 
   constructor(private http: HttpClient) {}
 
