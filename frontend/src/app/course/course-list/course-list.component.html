@@ -1,0 +1,97 @@
+<mat-toolbar>
+  <span class="main-title">University Courses</span>
+  <button mat-button (click)="router.navigate(['/course/new'])">
+    Add New Course
+  </button>
+</mat-toolbar>
+
+<div class="mat-elevation-z8">
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      [formControl]="searchControl"
+      placeholder="Search courses"
+    />
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="CourseName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
+      <td
+        mat-cell
+        *matCellDef="let course"
+        [matTooltip]="course.CourseDescription"
+      >
+        {{ course.CourseName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+      <td
+        mat-cell
+        *matCellDef="let course"
+        [matTooltip]="course.CourseDescription"
+      >
+        {{ course.City }}, {{ course.Country }}, {{ course.University }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Start">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Start</th>
+      <td
+        mat-cell
+        *matCellDef="let course"
+        [matTooltip]="course.CourseDescription"
+      >
+        {{ course.StartDate | date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Length">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Length</th>
+      <td
+        mat-cell
+        *matCellDef="let course"
+        [matTooltip]="course.CourseDescription"
+      >
+        {{ course.CourseLength }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+      <td
+        mat-cell
+        *matCellDef="let course"
+        [matTooltip]="course.CourseDescription"
+      >
+        {{ course.FormattedPrice }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let course">
+        <div>
+          <button mat-button (click)="editCourse(course)">Edit</button>
+          <button mat-button color="warn" (click)="deleteCourse(course._id)">
+            Delete
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalCourses"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>

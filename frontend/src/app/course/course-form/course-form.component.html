@@ -1,0 +1,126 @@
+<mat-card>
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="course-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Course Name</mat-label>
+      <input matInput formControlName="CourseName" />
+      <mat-error *ngIf="courseForm.get('CourseName')?.invalid"
+        >Course Name is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>University</mat-label>
+      <input
+        matInput
+        formControlName="University"
+        [matAutocomplete]="autoUniversity"
+      />
+      <mat-autocomplete #autoUniversity="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredUniversities | async"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="courseForm.get('University')?.invalid"
+        >University is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="City" [matAutocomplete]="autoCity" />
+      <mat-autocomplete #autoCity="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredCities | async"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="courseForm.get('City')?.invalid"
+        >City is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <input
+        matInput
+        formControlName="Country"
+        [matAutocomplete]="autoCountry"
+      />
+      <mat-autocomplete #autoCountry="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredCountries | async"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="courseForm.get('Country')?.invalid"
+        >Country is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Currency</mat-label>
+      <input matInput formControlName="Currency" />
+      <mat-error *ngIf="courseForm.get('Currency')?.invalid"
+        >Currency is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="Price" type="number" />
+      <mat-error *ngIf="courseForm.get('Price')?.invalid"
+        >Valid Price is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="StartDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+      <mat-error *ngIf="courseForm.get('StartDate')?.invalid"
+        >Start Date is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="EndDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-error *ngIf="courseForm.get('EndDate')?.invalid"
+        >End Date is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Course Description</mat-label>
+      <textarea matInput formControlName="CourseDescription"></textarea>
+      <mat-error *ngIf="courseForm.get('CourseDescription')?.invalid"
+        >Course Description is required</mat-error
+      >
+    </mat-form-field>
+
+    <div class="button-container">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="courseForm.invalid"
+        style="margin-right: 10px"
+      >
+        Save
+      </button>
+      <button mat-raised-button type="button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-card>
