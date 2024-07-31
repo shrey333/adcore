@@ -8,14 +8,14 @@ import { Course } from './course.model';
   providedIn: 'root',
 })
 export class CourseService {
-  private apiUrl = `http://localhost:8000/api/courses`;
+  private apiUrl = `http://52.55.149.231:8000/api/courses`;
 
   constructor(private http: HttpClient) {}
 
   getCourses(
     search: string = '',
     page: number = 1,
-    size: number = 10
+    size: number = 10,
   ): Observable<any> {
     return this.http
       .get<any>(`${this.apiUrl}?search=${search}&page=${page}&size=${size}`)
@@ -27,7 +27,7 @@ export class CourseService {
             StartDate: new Date(course.StartDate),
             EndDate: new Date(course.EndDate),
           })),
-        }))
+        })),
       );
   }
 
@@ -37,7 +37,7 @@ export class CourseService {
         ...course,
         StartDate: new Date(course.StartDate),
         EndDate: new Date(course.EndDate),
-      }))
+      })),
     );
   }
 
