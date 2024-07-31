@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Course } from './course.model';
@@ -9,6 +9,9 @@ import { Course } from './course.model';
 })
 export class CourseService {
   private apiUrl = `https://1a6a-64-189-4-230.ngrok-free.app/api/courses`;
+  private headers = new HttpHeaders({
+    'ngrok-skip-browser-warning': 'true', // Add the header here
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +21,9 @@ export class CourseService {
     size: number = 10,
   ): Observable<any> {
     return this.http
-      .get<any>(`${this.apiUrl}?search=${search}&page=${page}&size=${size}`)
+      .get<any>(`${this.apiUrl}?search=${search}&page=${page}&size=${size}`, {
+        headers: this.headers,
+      })
       .pipe(
         map((response) => ({
           ...response,
@@ -32,24 +37,32 @@ export class CourseService {
   }
 
   getCourseById(id: string): Observable<Course> {
-    return this.http.get<Course>(`${this.apiUrl}/${id}`).pipe(
-      map((course) => ({
-        ...course,
-        StartDate: new Date(course.StartDate),
-        EndDate: new Date(course.EndDate),
-      })),
-    );
+    return this.http
+      .get<Course>(`${this.apiUrl}/${id}`, { headers: this.headers })
+      .pipe(
+        map((course) => ({
+          ...course,
+          StartDate: new Date(course.StartDate),
+          EndDate: new Date(course.EndDate),
+        })),
+      );
   }
 
   createCourse(course: Course): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}`, course);
+    return this.http.post<string>(`${this.apiUrl}`, course, {
+      headers: this.headers,
+    });
   }
 
   updateCourse(id: string, course: Course): Observable<Course> {
-    return this.http.put<Course>(`${this.apiUrl}/${id}`, course);
+    return this.http.put<Course>(`${this.apiUrl}/${id}`, course, {
+      headers: this.headers,
+    });
   }
 
   deleteCourse(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, {
+      headers: this.headers,
+    });
   }
 }
