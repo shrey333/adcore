@@ -12,7 +12,7 @@ async def load_initial_data():
         timestamp = datetime.datetime.utcnow()
         for record in df_dict:
             record["timestamp"] = timestamp
-            course["created_at"] = datetime.datetime.utcnow()
+            record["created_at"] = datetime.datetime.utcnow()
         await db.courses.insert_many(df_dict)
         await db.courses.create_index("timestamp", expireAfterSeconds=600)
     except Exception as e:
