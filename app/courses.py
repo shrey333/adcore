@@ -17,6 +17,7 @@ async def create_course(course: Course):
             del course_dict["_id"]
 
         course_dict["created_at"] = datetime.datetime.utcnow()
+        course_dict["timestamp"] = datetime.datetime.utcnow()
         course_dict["StartDate"] = datetime.datetime.combine(
             course_dict["StartDate"], datetime.datetime.min.time()
         )
