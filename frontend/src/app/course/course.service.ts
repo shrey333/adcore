@@ -8,7 +8,7 @@ import { Course } from './course.model';
   providedIn: 'root',
 })
 export class CourseService {
-  private apiUrl = `https://1a6a-64-189-4-230.ngrok-free.app/api/courses`;
+  private apiUrl = `https://4f8b-2607-fb90-45cd-52bf-3818-c7cc-c1dd-ddea.ngrok-free.app`;
   private headers = new HttpHeaders({
     'ngrok-skip-browser-warning': 'true', // Add the header here
   });
